@@ -1,18 +1,45 @@
-Here’s a summary of the **key requirements** for building a robust **modular component system** with pre-mandated rulings and plug-and-play capability:
+Follow strictly on the requirements below for generating a plug-and-play modular component system:
 
 ---
 
-## 🧱 **Core Architectural Requirements**
+## **Core Architectural Requirements**
 
-### 1. **Primitive Components Layer**
+Must use COSMOS UI.
+
+For any chart and data visualisation, MUST use highcharts.
+
+
+### **Modular Component Folder Structure**
+
+* Each modular component must have a folder structure as follows:
+
+```bash
+src/components/modules/[ModuleName]/
+├── index.tsx
+├── README.md
+├── hooks/
+│   └── use[ModuleName]Data.ts
+├── utils/
+│   └── fetchData.ts
+├── types/
+│   └── [ModuleName].types.ts
+├── components/
+│   └── ui/
+├── metadata.json
+├── registry.ts
+└── [ModuleName].tsx
+```
+
+### **Primitive Components Layer**
 
 * Build low-level, stateless, styled components (`Input`, `Button`, `Card`, etc.)
 * Keep logic minimal and focus on appearance/interaction
 * Make them theming- or design-token-aware
+* No modification must be made to the primitive components
 
 ---
 
-### 2. **Rulings Layer (Rule Constants)**
+### **Rulings Layer (Rule Constants)**
 
 * Externalize all logic-related rules into structured constant files
 * Rules should include validation, visibility, layout constraints, business logic flags
@@ -30,7 +57,7 @@ export const FORM_RULES = {
 
 ---
 
-### 3. **Modular Component Layer**
+### **Modular Component Layer**
 
 * Compose primitive components using rulings
 * Accept rules and data source as props (or pull from context)
@@ -39,21 +66,21 @@ export const FORM_RULES = {
 
 ---
 
-### 4. **Pluggable Data Connectors**
+### **Pluggable Data Connectors**
 
 * Create interfaces like `UserDataSource` with `fetch()` and `submit()` methods
 * Implement connectors that wrap API calls (REST, GraphQL, LocalStorage)
 * Inject data connector into modular components dynamically
 
 ```ts
-<UserProfileForm dataSource={userApiConnector} />
+<[ModuleName] dataSource={userApiConnector} />
 ```
 
 ---
 
 ## 📦 **Packaging & Developer Experience**
 
-### 5. **Metadata for Use Case Mapping**
+### **Metadata for Use Case Mapping**
 
 * Include `metadata.json` per module with:
 
@@ -64,58 +91,10 @@ export const FORM_RULES = {
 
 ```json
 {
-  "name": "UserProfileForm",
-  "useCases": ["onboarding", "admin edit"],
-  "dataSource": "UserDataSource"
+  "name": "[ModuleName]",
+  "useCases": ["usecase1", "usecase2"],
+  "dataSource": "UserDataSource",
+  "description": "Description of the module",
+  "usageTimes": 0
 }
 ```
-
----
-
-### 6. **Scaffold Generator (CLI Tool)**
-
-* Cross-platform tool (Node.js + TypeScript) to:
-
-  * Prompt for component name, use cases, data source, etc.
-  * Auto-generate folder structure, metadata, component stub, docs
-  * (Optionally) update a registry
-
-```bash
-npx create-component-module
-```
-
----
-
-### 7. **Central Registry**
-
-* Maintain a single `ComponentRegistry` to map:
-
-  * Components
-  * Use cases
-  * Data connectors
-  * Rule files
-
-```ts
-export const ComponentRegistry = {
-  UserProfileForm: {
-    component: UserProfileForm,
-    description: "...",
-    useCases: ["onboarding"],
-    dataSource: userApiConnector,
-    rulings: FORM_RULES.userProfile
-  }
-}
-```
-
----
-
-## ✅ Bonus Requirements
-
-* Optional: Storybook or visual registry viewer
-* Optional: Rule enforcement utilities (Zod/Yup schema)
-* Optional: AI-readable JSDoc tags (`@useCase`, `@dataSource`, etc.)
-* Optional: Versioning support (per module or per registry)
-
----
-
-Let me know if you’d like this turned into a visual architecture diagram or a README template.
