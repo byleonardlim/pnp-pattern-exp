@@ -4,31 +4,59 @@ Follow strictly on the requirements below for generating a plug-and-play modular
 
 ## **Core Architectural Requirements**
 
-Must use COSMOS UI.
+COSMOS UI must be used for every use case. Analyse component usage thoroughly. Do not modify the COSMOS UI code.
 
-For any chart and data visualisation, MUST use highcharts.
-
+highcharts must be used for any data visualisation and chart rendering. Strictly follow the highcharts documentation on the implementation and chart types through https://www.highcharts.com/docs/index. Do not modify the highcharts code.
 
 ### **Modular Component Folder Structure**
 
 * Each modular component must have a folder structure as follows:
 
 ```bash
-src/components/modules/[ModuleName]/
-├── index.tsx
-├── README.md
-├── hooks/
-│   └── use[ModuleName]Data.ts
-├── utils/
-│   └── fetchData.ts
-├── types/
-│   └── [ModuleName].types.ts
-├── components/
-│   └── ui/
-├── metadata.json
-├── registry.ts
-└── [ModuleName].tsx
+src/
+└── modules/
+    └── [module-name]/                  # Module root
+        ├── components/                 # Module-specific components
+        │   ├── ui/                     # Presentational components
+        │   │   ├── [component-name].tsx
+        │   │   └── index.ts
+        │   └── container/              # Container components
+        │       └── [container-name].tsx
+        │
+        ├── hooks/                      # Custom hooks
+        │   ├── use[ModuleName]Data.ts  # Data fetching/state management
+        │   └── use[ModuleName]Logic.ts # Business logic
+        │
+        ├── store/                      # State management
+        │   └── [module-name].slice.ts  # Redux/Context slice
+        │
+        ├── types/                      # TypeScript types
+        │   └── [module-name].types.ts
+        │
+        ├── utils/                      # Utility functions
+        │   ├── api/                    # API calls
+        │   │   └── [module-name].api.ts
+        │   └── helpers/                # Helper functions
+        │       └── [module-name].utils.ts
+        │
+        ├── config/                     # Configuration
+        │   ├── [module-name].config.ts
+        │   └── [module-name].rules.ts  # Validation/business rules
+        │
+        ├── docs/                       # Documentation
+        │   └── README.md
+        │
+        ├── __tests__/                  # Test files
+        │   ├── unit/
+        │   └── integration/
+        │
+        ├── [module-name].tsx           # Main component
+        ├── index.ts                    # Public API
+        └── [module-name].metadata.json # Module metadata
 ```
+
+## **Generation Best Practices**
+Strictly follow these best practices when generating modular components:
 
 ### **Primitive Components Layer**
 
@@ -73,12 +101,12 @@ export const FORM_RULES = {
 * Inject data connector into modular components dynamically
 
 ```ts
-<[ModuleName] dataSource={userApiConnector} />
+<[module-name] dataSource={userApiConnector} />
 ```
 
 ---
 
-## 📦 **Packaging & Developer Experience**
+## *Packaging & Developer Experience**
 
 ### **Metadata for Use Case Mapping**
 
@@ -91,10 +119,10 @@ export const FORM_RULES = {
 
 ```json
 {
-  "name": "[ModuleName]",
+  "name": "[module-name]",
   "useCases": ["usecase1", "usecase2"],
   "dataSource": "UserDataSource",
-  "description": "Description of the module",
+  "description": "Description of the module-name",
   "usageTimes": 0
 }
 ```
