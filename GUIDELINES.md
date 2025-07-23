@@ -4,7 +4,7 @@ Follow strictly on the requirements below for generating a plug-and-play modular
 
 ## **Core Architectural Requirements**
 
-COSMOS UI must be used for every use case. Analyse component usage thoroughly. Do not modify the COSMOS UI code.
+COSMOS UI must be used for every use case. Analyse component usage thoroughly within the package. Do not modify the COSMOS UI code.
 
 highcharts must be used for any data visualisation and chart rendering. Strictly follow the highcharts documentation on the implementation and chart types through https://www.highcharts.com/docs/index. Do not modify the highcharts code.
 
